@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <button type="button" id="getBtn">Get</button>
+
+  <button type="button" id="postBtn">Post</button>
+  
+</body>
+
+<script>
+  const getBtn = document.querySelector("#getBtn");
+  const postBtn = document.querySelector("#postBtn");
+
+  getBtn.addEventListener("click", () => {
+    const borsha = new XMLHttpRequest();
+    borsha.open("GET", "https://api.restful-api.dev/objects", true);
+    borsha.onreadystatechange = function () {
+      if (borsha.readyState == 4) {
+        console.log(this.responseText);
+      }
+    };
+    borsha.send();
+  });
+  postBtn.addEventListener("click", () => {
+    const borsha = new XMLHttpRequest();
+    borsha.open("POST", "https://api.restful-api.dev/objects", true);
+    borsha.setRequestHeader("Content-Type", "application/json");
+    borsha.onreadystatechange = function () {
+      if (borsha.readyState === 4 && (borsha.status === 200 || borsha.status === 201)) {
+        console.log("Success:", borsha.responseText);
+      } else if (borsha.readyState === 4) {
+        console.error("Error:", borsha.status, borsha.responseText);
+      }
+    };
+
+    const sas = {
+      name: "Asus",
+      data: {
+        year: 2010,
+        price: 1245612,
+        "CPU model": "Intel Core i7",
+        "Hard disk size": "1 TB",
+      },
+    };
+    borsha.send(JSON.stringify(sas));
+  });
+</script>
+
+</html>
