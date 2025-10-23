@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+</head>
+<body>
+
+  <h2>jQuery CRUD</h2>
+
+  <button type="button" id="getBtn">Get</button>
+  <button type="button" id="postBtn">Post</button>
+  <button type="button" id="editBtn">Edit</button>
+  <button type="button" id="deleteBtn">Delete</button>
+
+</body>
+
+<script>
+
+  // get
+
+  $("#getBtn").click(function() {
+    $.ajax({
+      url: "https://api.restful-api.dev/objects",
+      type: "GET",
+      success: function(response) {
+        $("#output").text(JSON.stringify(response, null, 2));
+        console.log("GET Success:", response);
+      },
+      error: function(sas) {
+        $("#output").text("GET Error: " + sas.status);
+      }
+    });
+  });  
+
+  // post
+
+  $("#postBtn").click(function() {
+    const newData = {
+      name: "Asus Laptop",
+      data: {
+        year: 2025,
+        price: 145000,
+        "CPU model": "Intel Core i9",
+        "Hard disk size": "2 TB"
+      }
+    };
+    $.ajax({
+      url: "https://api.restful-api.dev/objects",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify(newData),
+      success: function(response) {
+        $("#output").text("POST Success:\n" + JSON.stringify(response, null, 2));
+        console.log("POST Success:", response);
+      },
+      error: function(sas) {
+        $("#output").text("POST Error: " + sas.status);
+      }
+    });
+  });
+  // put/edit
+  $("#editBtn").click(function(){
+    const updatedData = {
+      name: "Apple Mac Book",
+      data: {
+        year: 2025,
+        price: 160000,
+        "CPU model": "Intel Core i9",
+        "Hard disk size": "4 TB"
+      }
+    };
+
+    $.ajax({
+      url: "https://api.restful-api.dev/objects/ff8081819782e69e019a0f3583b6339d",
+      type: "PUT",
+      contentType: "application/json",
+      data: JSON.stringify(updatedData),
+      success: function(response){
+        $("output").text("UPDATED Success:\n" + JSON.stringify(response, null,2));
+        console.log("UPDATED Success:", response);
+      },
+      error: function(sas) {
+        $("#output").text("UPDATED Error:" + sas.status);
+      }
+
+    });
+
+    // delete
+
+    $("#deleteBtn").click(function () {
+      const objectId = prompt("Enter Object ID to Delete:");
+      if (!objectId) return alert(" Please provide an ID!");
+
+      $.ajax({
+        url: `${"https://api.restful-api.dev/objects/6"}/${objectId}`,
+        type: "DELETE",
+        success: function (response) {
+          $("#output").text("DELETE Success:\n" + JSON.stringify(response, null, 2));
+          console.log("DELETE Success:", response);
+        },
+        error: function (sas) {
+          $("#output").text("DELETE Error: " + sas.status);
+        }
+      });
+    });
+  });
+
+</script>
+</html>
