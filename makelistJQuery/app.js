@@ -1,6 +1,6 @@
-
-$(document).ready(function() {
+$(document).ready(function () {
   const form = $('#userForm');
+  const table = $('#userTable');  
   const tableBody = $('#userTable tBody');
   const submitBtn = $('#submitBtn');
 
@@ -22,9 +22,8 @@ $(document).ready(function() {
           </td>
         </tr>
       `);
-      table.append(row);
+      tableBody.append(row);
     });
-
   }
   renderTable();
 
@@ -32,7 +31,7 @@ $(document).ready(function() {
     localStorage.setItem('users', JSON.stringify(users));
   }
 
-  form.on('submit', function(e) {
+  form.on('submit', function (e) {
     e.preventDefault();
 
     const id = $('#id').val();
@@ -67,7 +66,7 @@ $(document).ready(function() {
     renderTable();
   });
 
-  table.on('click', '.editBtn', function() {
+  table.on('click', '.editBtn', function () {
     editRow = $(this).closest('tr');
     const index = editRow.index();
     const user = users[index];
