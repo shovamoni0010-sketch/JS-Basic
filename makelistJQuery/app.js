@@ -1,14 +1,14 @@
 
 $(document).ready(function() {
   const form = $('#userForm');
-  const table = $('#userTable');
+  const tableBody = $('#userTable tBody');
   const submitBtn = $('#submitBtn');
 
   let editRow = null;
   let users = JSON.parse(localStorage.getItem('users')) || [];
 
   function renderTable() {
-    table.empty();
+    tableBody.empty();
     users.forEach(user => {
       const row = $(`
         <tr>
