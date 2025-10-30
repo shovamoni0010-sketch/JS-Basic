@@ -1,6 +1,6 @@
 $(document).ready(function () {
   const form = $('#userForm');
-  const table = $('#userTable');  
+  const table = $('#userTable');
   const tableBody = $('#userTable tBody');
   const submitBtn = $('#submitBtn');
 
@@ -34,23 +34,32 @@ $(document).ready(function () {
   form.on('submit', function (e) {
     e.preventDefault();
 
-    const id = $('#id').val();
+    // const id = $('#id').val();
     const name = $('#name').val();
     const email = $('#email').val();
     const phone = $('#phone').val();
 
-    if (!id || !name || !email || !phone) {
+    if (!name || !email || !phone) {
       alert('Please fill all fields!');
       return;
     }
+
+    const duplicate = users.find(u => u.email === email);
+    if (duplicate && !editRow) {
+      alert('This Email already exists!');
+      return;
+    }
+
     if (editRow) {
       const index = editRow.index();
-      users[index] = { id, name, email, phone };
+      const oldId = users[index].id;
+      users[index] = { id: oldId, name, email, phone };
 
       submitBtn.text(' + Add user');
       editRow = null;
     } else {
-      users.push({ id, name, email, phone });
+      const newId = users.length > 0 ? users[users.length - 1].id + 1 : 1;
+      users.push({ id: newId, name, email, phone });
     }
     saveToLocal();
     renderTable();
@@ -71,7 +80,7 @@ $(document).ready(function () {
     const index = editRow.index();
     const user = users[index];
 
-    $('#id').val(user.id);
+    // $('#id').val(user.id);
     $('#name').val(user.name);
     $('#email').val(user.email);
     $('#phone').val(user.phone);
